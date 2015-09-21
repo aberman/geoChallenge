@@ -20,7 +20,9 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * Created by andrew on 9/18/15.
+ * Main application class
+ *
+ * @author Andrew Berman
  */
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -55,9 +57,9 @@ public class Application implements CommandLineRunner {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(Application.class, args);
 
-
         RestTemplate restTemplate = new RestTemplate();
         Point[] points = restTemplate.getForObject(ENDPOINT, Point[].class);
+
         List<String> spreadsheet = new ArrayList<>();
         spreadsheet.add("Latitude, Longitude, Within US, 500 mi from Tokyo, Dist from Tokyo, 500 mi from Sydney, Dist from Sydney, 500 mi from Riyadh, Dist from Riyadh, 500 mi from Zurich, Dist from Zurich, 500 mi from Reykjavik, Dist from Reykjavik, 500 mi from Mexico City, Dist from Mexico City, 500 mi from Lima, Dist from Lima");
 
@@ -66,19 +68,25 @@ public class Application implements CommandLineRunner {
             line.add(point.getLatitude().toString());
             line.add(point.getLongitude().toString());
 
-            boolean isContiguouslUS = US_LATITUDE_RANGE.contains(point.getLatitude()) && US_LONGITUDE_RANGE.contains(point
+            boolean isContiguousUS = US_LATITUDE_RANGE.contains(point.getLatitude()) && US_LONGITUDE_RANGE.contains(point
                     .getLongitude());
 
-            //is city in US
-            line.add(String.valueOf(isContiguouslUS));
+            //Is point in US?
+            line.add(String.valueOf(isContiguousUS));
 
-            double[] distances = {point.getDistanceInMiles(City.TOKYO.getPoint()), point.getDistanceInMiles(City
-                    .SYDNEY.getPoint()),
-                    point.getDistanceInMiles(City.RIYADH.getPoint()), point.getDistanceInMiles(City.ZURICH.getPoint()), point.getDistanceInMiles(City.REYKJAVIK.getPoint()), point.getDistanceInMiles(City.MEXICO_CITY.getPoint()), point.getDistanceInMiles(City.LIMA.getPoint())};
+            double[] distances = {
+                    point.getDistanceInMiles(City.TOKYO.getPoint()),
+                    point.getDistanceInMiles(City.SYDNEY.getPoint()),
+                    point.getDistanceInMiles(City.RIYADH.getPoint()),
+                    point.getDistanceInMiles(City.ZURICH.getPoint()),
+                    point.getDistanceInMiles(City.REYKJAVIK.getPoint()),
+                    point.getDistanceInMiles(City.MEXICO_CITY.getPoint()),
+                    point.getDistanceInMiles(City.LIMA.getPoint())
+            };
 
-            if (!isContiguouslUS) {
+            if (!isContiguousUS) {
                 for (double dist : distances) {
-                    //Is point within 500 miles of city
+                    //Is point within 500 miles of city?
                     line.add(String.valueOf(dist <= 500));
 
                     //Distance from each city

@@ -15,7 +15,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by andrew on 9/18/15.
+ * REST Controller which defines the API
+ *
+ * @author Andrew Berman
  */
 @RestController
 @RequestMapping("/points")
@@ -25,6 +27,10 @@ public class PointController {
 
     private static final Logger log = LoggerFactory.getLogger(PointController.class);
 
+    /**
+     * Retreives all the points in the database
+     * @return The list of all points in the system
+     */
     @RequestMapping(method = RequestMethod.GET)
     public List<Point> all() {
         log.info("Querying for all points");
@@ -36,6 +42,12 @@ public class PointController {
         });
     }
 
+    /**
+     * Queries the system as to whether the point already exists
+     * @param latitude
+     * @param longitude
+     * @return A boolean as to whether the point exists
+     */
     @RequestMapping(value = "/{lat:.+}:{long:.+}", method = RequestMethod.GET)
     public Boolean get(@PathVariable(value = "lat") Double latitude, @PathVariable(value = "long") Double longitude) {
         log.info("Querying for point: " + latitude + ", " + longitude);
@@ -43,6 +55,14 @@ public class PointController {
         return jdbcTemplate.queryForObject(sql, Integer.class, latitude, longitude) > 0;
     }
 
+    /**
+     * Saves a point to the database if it does not already exist
+     * @param point
+     * @return
+     *  HTTP 201 if point did not exist and was successfully inserted into db
+     *  HTTP 302 if point already existed in db
+     *  HTTP 400 if there was a problem converting response body to a Point object
+     */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> add(@RequestBody Point point) {
         if (point != null) {

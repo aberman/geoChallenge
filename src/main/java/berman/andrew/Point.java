@@ -7,7 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.io.Serializable;
 
 /**
- * Created by andrew on 9/18/15.
+ * Point class to hold latitude and longitude values and associated methods
+ *
+ * @author Andrew Berman
+ *
  */
 public class Point implements Serializable {
     private static final double R = 3961; //Earth's radius in miles
@@ -66,8 +69,13 @@ public class Point implements Serializable {
         return result;
     }
 
+    /**
+     * Returns the distance of this point from another point in miles
+     * @param point
+     * @return The distance in miles between the two points
+     */
     public double getDistanceInMiles(Point point) {
-        //Haversine distance
+        //Haversine formula without altitude
         double dLat = Math.toRadians(point.getLatitude() - this.getLatitude());
         double dLon = Math.toRadians(point.getLongitude() - this.getLongitude());
         double lat1 = Math.toRadians(this.getLatitude());
