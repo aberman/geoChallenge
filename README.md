@@ -3,7 +3,8 @@
 ## Quick start
 
 1. Install Java
-2. ./gradlew run
+2. Clone repo
+3. ./gradlew run
 
 The application will: 
 
