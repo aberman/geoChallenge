@@ -74,17 +74,17 @@ public class Application implements CommandLineRunner {
             //Is point in US?
             line.add(String.valueOf(isContiguousUS));
 
-            double[] distances = {
-                    point.getDistanceInMiles(City.TOKYO.getPoint()),
-                    point.getDistanceInMiles(City.SYDNEY.getPoint()),
-                    point.getDistanceInMiles(City.RIYADH.getPoint()),
-                    point.getDistanceInMiles(City.ZURICH.getPoint()),
-                    point.getDistanceInMiles(City.REYKJAVIK.getPoint()),
-                    point.getDistanceInMiles(City.MEXICO_CITY.getPoint()),
-                    point.getDistanceInMiles(City.LIMA.getPoint())
-            };
-
             if (!isContiguousUS) {
+                double[] distances = {
+                        point.getDistanceInMiles(City.TOKYO.getPoint()),
+                        point.getDistanceInMiles(City.SYDNEY.getPoint()),
+                        point.getDistanceInMiles(City.RIYADH.getPoint()),
+                        point.getDistanceInMiles(City.ZURICH.getPoint()),
+                        point.getDistanceInMiles(City.REYKJAVIK.getPoint()),
+                        point.getDistanceInMiles(City.MEXICO_CITY.getPoint()),
+                        point.getDistanceInMiles(City.LIMA.getPoint())
+                };
+                
                 for (double dist : distances) {
                     //Is point within 500 miles of city?
                     line.add(String.valueOf(dist <= 500));
