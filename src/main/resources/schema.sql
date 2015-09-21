@@ -1,0 +1,1 @@
+create table points (latitude DOUBLE, longitude DOUBLE, PRIMARY KEY(latitude, longitude));
